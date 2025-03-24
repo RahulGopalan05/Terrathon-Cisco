@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agricultural AI Assistant</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .chat-container {
+            height: 400px;
+            overflow-y: auto;
+            padding: 15px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .user-message {
+            background-color: #dcf8c6;
+            padding: 8px 12px;
+            border-radius: 15px;
+            margin-bottom: 10px;
+            max-width: 80%;
+            align-self: flex-end;
+            margin-left: auto;
+        }
+        .bot-message {
+            background-color: #f1f0f0;
+            padding: 8px 12px;
+            border-radius: 15px;
+            margin-bottom: 10px;
+            max-width: 80%;
+        }
+        .tab-content {
+            padding: 15px;
+            background-color: white;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .card {
+            margin-bottom: 20px;
+            border: none;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .card-header {
+            background-color: #198754;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 class="text-center mb-4 text-success">Agricultural AI Assistant</h1>
+        
+        <div class="row">
+            <div class="col-md-8 mb-4">
+                <div class="card">
+                    <div class="card-header">AI Chat Assistant</div>
+                    <div class="card-body">
+                        <div class="chat-container" id="chatContainer">
+                            <div class="bot-message">
+                                Hello! I'm your agricultural AI assistant. I can help with plant disease detection, weed identification, crop recommendations, price predictions, irrigation planning, and plant health monitoring. How can I assist you today?
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <div class="input-group">
+                                <input type="text" id="userMessage" class="form-control" placeholder="Type your message...">
+                                <button class="btn btn-success" id="sendButton">Send</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">Tools & Analysis</div>
+                    <div class="card-body">
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="image-tab" data-bs-toggle="tab" data-bs-target="#image" type="button" role="tab" aria-controls="image" aria-selected="true">Image Analysis</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="crop-tab" data-bs-toggle="tab" data-bs-target="#crop" type="button" role="tab" aria-controls="crop" aria-selected="false">Crop Tools</button>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="image" role="tabpanel" aria-labelledby="image-tab">
+                                <h5 class="mt-2">Upload Image for Analysis</h5>
+                                <form id="imageUploadForm" method="POST" action="/upload-image" enctype="multipart/form-data">
+                                    <div class="mb-3">
+                                        <label for="formFile" class="form-label">Choose an image of your plant or field</label>
+                                        <input class="form-control" type="file" id="formFile" name="file" accept="image/*">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Analysis Type</label>
+                                        <select class="form-select" id="analysisType" name="type">
+                                            <option value="plant_disease">Plant Disease Detection</option>
+                                            <option value="weed_detection">Weed Identification</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-success">Analyze Image</button>
+                                </form>
+                                <div id="imageResult" class="mt-3"></div>
+                            </div>
+                            <div class="tab-pane fade" id="crop" role="tabpanel" aria-labelledby="crop-tab">
+                                <h5 class="mt-2">Agriculture Tools</h5>
+                                <form id="cropRecommendationForm">
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <label>Nitrogen (N):</label>
+                                            <input type="number" class="form-control" name="N" value="90">
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label>Phosphorus (P):</label>
+                                            <input type="number" class="form-control" name="P" value="42">
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label>Potassium (K):</label>
+                                            <input type="number" class="form-control" name="K" value="43">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <label>Temperature (°C):</label>
+                                            <input type="number" class="form-control" name="temperature" value="20">
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label>Humidity (%):</label>
+                                            <input type="number" class="form-control" name="humidity" value="82">
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label>pH:</label>
+                                            <input type="number" step="0.1" class="form-control" name="ph" value="6.5">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <label>Rainfall (mm):</label>
+                                            <input type="number" class="form-control" name="rainfall" value="202">
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label>Soil Type:</label>
+                                            <select class="form-select" name="soil_type">
+                                                <option value="sandy">Sandy</option>
+                                                <option value="clay">Clay</option>
+                                                <option value="loamy">Loamy</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-success" id="getRecommendationButton">Get Recommendation</button>
+                                </form>
+                                <div id="cropResult" class="mt-3"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('sendButton').addEventListener('click', async () => {
+            const userMessage = document.getElementById('userMessage').value.trim();
+            const chatContainer = document.getElementById('chatContainer');
+    
+            if (!userMessage) {
+                alert('Please type a message.');
+                return;
+            }
+    
+            // Display the user's message in the chat
+            const userMessageElement = document.createElement('div');
+            userMessageElement.className = 'user-message';
+            userMessageElement.textContent = userMessage;
+            chatContainer.appendChild(userMessageElement);
+    
+            // Clear the input field
+            document.getElementById('userMessage').value = '';
+    
+            // Scroll to the bottom of the chat container
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+    
+            try {
+                // Send the user's message to the backend
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: userMessage })
+                });
+    
+                const data = await response.json();
+    
+                // Display the AI's response in the chat
+                const botMessageElement = document.createElement('div');
+                botMessageElement.className = 'bot-message';
+                botMessageElement.textContent = data.response || 'Sorry, I could not process your request.';
+                chatContainer.appendChild(botMessageElement);
+    
+                // Scroll to the bottom of the chat container
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            } catch (error) {
+                console.error('Error:', error);
+                const errorMessageElement = document.createElement('div');
+                errorMessageElement.className = 'bot-message';
+                errorMessageElement.textContent = 'An error occurred while processing your request.';
+                chatContainer.appendChild(errorMessageElement);
+    
+                // Scroll to the bottom of the chat container
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+        });
+    </script>
+</body>
+</html>
