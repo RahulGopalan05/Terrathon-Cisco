@@ -89,5 +89,10 @@ The chatbot uses Google’s Gemini API for natural language understanding and in
 
 ---  
 
+## Contributors
+1. Rahul Gopalan
+
+---
+
 ## Conclusion  
 This project represents an AI-powered all-in-one smart agriculture solution, combining deep learning, machine learning, and LLM-based chatbot interactions. While still a work in progress, the system lays the foundation for precision farming, proactive decision-making, and sustainability in agriculture.
